@@ -1,15 +1,35 @@
 <div class="main">
     <div class="search">
-      <input type="text" #searchInput/>
+      <input placeholder="Search github users" type="text" #searchInput/>
     </div>
 
     <div class="cards">
-      <ng-container *ngIf="githubUsers$ | async as githubusers">
-        <div *ngFor="let user of githubusers" class="card">
-          <img [src]="user.avatar_url" width="200"/>
-          <h1>{{ user.login }}</h1>
+      
+      <ng-container *ngIf="githubUsers$ | async as githubusers; else skeleton">
+
+        <div *ngFor="let user of githubusers" class="github-card">
+          <img class="avatar" [src]="user.avatar_url" />
+          <div class="user-info">
+            <h2>{{ user.login }}</h2>
+            <p>ID: {{ user.id }}</p>
+            <p>Type: {{ user.type }}</p>
+            <p>Admin: {{ user.site_admin ? 'Yes' : 'No'}}</p>
+            <a [href]="user.html_url" class="profile-link">View Profile</a>
+          </div>
         </div>
+
       </ng-container>
+      <ng-template #skeleton>
+        <div *ngFor="let i of forSkeleton" class="skeleton-card">
+          <div class="skeleton-avatar"></div>
+          <div class="text-skeleton"></div>
+          <div class="text-skeleton2"></div>
+          <div class="text-skeleton3"></div>
+          <div class="button-skeleton"></div>
+        </div>
        
+      </ng-template>
     </div>
 </div>
+
+

@@ -1,7 +1,8 @@
 
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable, debounceTime, distinctUntilChanged, fromEvent, map, switchMap } from 'rxjs';
+import { EMPTY, Observable, Subject, catchError, debounceTime, distinctUntilChanged, filter, fromEvent, map, range, switchMap, tap } from 'rxjs';
 import { HttpClient} from "@angular/common/http";
+import { error } from 'console';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,12 +13,22 @@ export class AppComponent implements AfterViewInit {
 
 
   githubUsers$!:Observable<GitHubUser[]>;
+
+  forSkeleton:number[] = [];
   url: string = 'https://api.github.com/search/users?q=';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) 
+  {
+       range(1,10).subscribe(numbers=>
+        {
+            this.forSkeleton.push(numbers);
+        })
+  }
 
   ngAfterViewInit(): void {
     const fromInput$ = fromEvent(this.searchInput.nativeElement, 'input');
     
+    fromInput$.pipe()
+
     this.githubUsers$ = fromInput$
       .pipe(
         map((event) => {
@@ -26,9 +37,17 @@ export class AppComponent implements AfterViewInit {
 
           return test.value;
         }),
+      
         debounceTime(1000),
         distinctUntilChanged(),
-        switchMap((searchValue) => this.http.get(this.url + searchValue)),
+        filter(x=> x!==''),
+        tap((value) => value=''),
+        switchMap((searchValue) => this.http.get(this.url + searchValue).pipe(
+          catchError(err=>
+            {
+              return EMPTY;
+            })
+        )),
         map((githubItem: { items?: GitHubUser[] }) => {
           const githubUsers: GitHubUser[] = (githubItem.items || []) as GitHubUser[];
           return githubUsers;

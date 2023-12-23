@@ -1,5 +1,8 @@
 :host 
 {
+    @import url(../../node_modules/skeleton-screen-css/dist/index.min.css);
+
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -19,9 +22,12 @@
 
             input 
             {
-                border-bottom: 2px solid rgb(0, 45, 28);
+               
                 width: 200px;
                 transition: all .3s ease;
+                border-radius: 30px;
+                padding: 10px;
+                border: 3px solid rgb(1, 0, 66);
                 &:focus 
                 {
                     width: 270px;
@@ -29,6 +35,116 @@
                     outline: none;
                 }
             }
+        }
+
+        .cards 
+        {
+            margin-top: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+
+            .skeleton-card 
+            {
+                background-color: #fff;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                border: 1px solid #333;
+                animation: skeleton-loading 1.5s infinite ease-in-out;
+                .skeleton-avatar 
+                {
+                    background-color: #666;
+                    width: 300px;
+                    height: 300px;
+                    border-radius: 8px;
+                }
+                .text-skeleton
+                {
+                    width: 100px;
+                    height: 20px;
+                    background-color: #666;
+                    border-radius: 3px;
+                }
+                .text-skeleton2
+                {
+                    width: 100px;
+                    height: 20px;
+                    background-color: #666;
+                    border-radius: 3px;
+                }
+                .text-skeleton3
+                {
+                    width: 120px;
+                    height: 20px;
+                    background-color: #666;
+                    border-radius: 3px;
+                }
+                .button-skeleton 
+                {
+                    background-color: #2ecc71; 
+                    border-radius: 4px;
+                    width: 115px;
+                    height: 30px;
+                    margin-bottom: 20px;
+                }
+            }
+
+            @keyframes skeleton-loading {
+                0% { opacity: 0.6; }
+                50% { opacity: 1; }
+                100% { opacity: 0.6; }
+              }
+
+            .github-card {
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+                width: 300px;
+                text-align: center;
+                transition: transform 0.3s ease-in-out;
+              
+                &:hover {
+                  transform: scale(1.05);
+                }
+              
+                .avatar {
+                  width: 100%;
+                  height: auto;
+                }
+              
+                .user-info {
+                  padding: 16px;
+              
+                  h2 {
+                    margin-top: 0;
+                    color: #333;
+                  }
+              
+                  p {
+                    margin: 8px 0;
+                    color: #666;
+                  }
+              
+                  .profile-link {
+                    display: inline-block;
+                    padding: 8px 16px;
+                    background-color: #2ecc71;
+                    color: #fff;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    transition: background-color 0.3s ease-in-out;
+              
+                    &:hover {
+                      background-color: #27ae60;
+                    }
+                  }
+                }
+              }
         }
     }
 }
